@@ -73,7 +73,7 @@ $(function () {
             x: -20 //center
         },
         subtitle: {
-            text: 'Compiled by <a href="http://paradite.com">paradite</a>',
+            text: 'Compiled by <a href="https://github.com/paradite">paradite</a>',
             x: -20
         },
         xAxis: {
