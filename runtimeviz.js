@@ -5,13 +5,14 @@
  */
 $(function () {
     //initialize values of n for the x-axis
-    var max_display_number = 10000000000;
+    var max_display_number = 10000000000000;
     var number_of_n_values = 15;
     var n_factor = 2;
     var n_values = [];
     var n_value = 1;
     while(n_values.length < number_of_n_values){
         n_values.push(n_value);
+        n_values.push(n_value + n_value/2);
         n_value*= n_factor;
     }
 
@@ -43,6 +44,10 @@ $(function () {
         return [n, Math.pow(n, lg(n))];
     }
 
+    var run_time_n_pow_n = function (n) {
+        return [n, Math.pow(n, n)];
+    }
+
     var run_time_2_pow_n = function (n) {
         var result = Math.pow(2, n);
 
@@ -61,6 +66,12 @@ $(function () {
             var caculated_values = f(values[n]);
             if(caculated_values[1] < max_display_number){
                 result.push(caculated_values);
+            }else{
+                //Limit the max of subsequent running time to the max of this running time
+                //So that the graph looks less confusing
+                var previous_caculated_values = f(values[n - 1]);
+                max_display_number = previous_caculated_values[1];
+                break;
             }
         }
 
@@ -68,12 +79,16 @@ $(function () {
     }
 
     $('#container').highcharts({
+        chart: {
+            type: 'spline'
+        },
         title: {
-            text: 'Visualize running time and order of growth',
-            x: -20 //center
+            text: 'RuntimeViz <small> by <a href="https://github.com/paradite">paradite</a></small>',
+            x: 20, //center
+            useHTML: true
         },
         subtitle: {
-            text: 'Compiled by <a href="https://github.com/paradite">paradite</a>',
+            text: 'Visulize order of growth for different running time',
             x: -20
         },
         xAxis: {
@@ -109,6 +124,10 @@ $(function () {
             }
         },
         series: [{
+            name: 'n^n',
+            data: calculate(run_time_n_pow_n, n_values),
+            visible: false
+        }, {
             name: '2^n',
             data: calculate(run_time_2_pow_n, n_values)
         }, {
@@ -122,7 +141,8 @@ $(function () {
             data: calculate(run_time_n_lg_n, n_values)
         }, {
             name: 'n',
-            data: calculate(run_time_n, n_values)
+            data: calculate(run_time_n, n_values),
+            visible: false
         }, {
             name: 'sqrt(n)',
             data: calculate(run_time_square_root_n, n_values)
@@ -139,10 +159,4 @@ $(function () {
     });
 
     var chart = $('#container').highcharts();
-    var series = chart.series[4];
-    if (series.visible) {
-        series.hide();
-    } else {
-        series.show();
-    }
 });
