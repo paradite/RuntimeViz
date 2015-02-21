@@ -80,12 +80,28 @@ $(function () {
     }
 
     $('#container').highcharts({
+        credits: {
+            text: 'compiled by paradite',
+            href: 'https://github.com/paradite',
+            position: {
+                align: 'right',
+                x: -100,
+                verticalAlign: 'top',
+                y: 25
+            },
+            style: {
+                cursor: 'pointer',
+                color: '#909090',
+                fontSize: '12px'
+
+            }
+        },
         chart: {
             type: 'spline'
         },
         title: {
-            text: 'RuntimeViz <small> by <a href="https://github.com/paradite">paradite</a></small>',
-            x: 20, //center
+            text: 'RuntimeViz',
+            x: -20, //center
             useHTML: true
         },
         subtitle: {
