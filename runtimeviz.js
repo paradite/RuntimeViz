@@ -59,6 +59,30 @@ $(function () {
         }
     }
 
+    //Added on 1 Apr 2015
+    var run_time_10_pow_lg_n = function (n) {
+        var result = Math.pow(10, lg(n));
+
+        if (result == Number.POSITIVE_INFINITY || result == Number.NEGATIVE_INFINITY)
+        {
+            return [n, Number.MAX_VALUE];
+        }else{
+            return [n, result];
+        }
+    }
+
+    //Added on 1 Apr 2015
+    var run_time_2_pow_lg_n = function (n) {
+        var result = Math.pow(2, lg(n));
+
+        if (result == Number.POSITIVE_INFINITY || result == Number.NEGATIVE_INFINITY)
+        {
+            return [n, Number.MAX_VALUE];
+        }else{
+            return [n, result];
+        }
+    }
+
     var calculate = function (f, values){
         var result = [];
         var n;
@@ -150,14 +174,21 @@ $(function () {
             name: 'n^lg(n)',
             data: calculate(run_time_n_pow_lg_n, n_values)
         }, {
+            name: '10^lg(n)',
+            data: calculate(run_time_10_pow_lg_n, n_values),
+            visible: false
+        }, {
             name: 'n^2',
             data: calculate(run_time_n_square, n_values)
-        },  {
+        }, {
             name: 'nlg(n)',
             data: calculate(run_time_n_lg_n, n_values)
         }, {
             name: 'n',
             data: calculate(run_time_n, n_values),
+        }, {
+            name: '2^lg(n)',
+            data: calculate(run_time_2_pow_lg_n, n_values),
             visible: false
         }, {
             name: 'sqrt(n)',
